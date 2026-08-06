@@ -50,7 +50,7 @@ The basic use of the library follows a linear 7-step process. Start by importing
 from rocket3 import atmosphere, rocket_3dof, motor_3dof, flight_3dof
 ```
 
-*Step 1: Initialize the atmosphere**
+**Step 1: Initialize the atmosphere*
 
 ```python
 example_atm = atmosphere()
@@ -62,7 +62,7 @@ example_atm = atmosphere()
 example_motor = motor_3dof(thrust=1100, burn_out_time=6, name='constant_thrust')
 ```
 
-*Step 3: Initialize the rocket**
+**Step 3: Initialize the rocket*
 
 ```python
 example_rocket = rocket_3dof(
@@ -73,13 +73,13 @@ example_rocket = rocket_3dof(
 )
 ```
 
-*Step 4: Add the motor to the rocket**
+**Step 4: Add the motor to the rocket*
 
 ```python
 example_rocket.add_motor(example_motor)
 ```
 
-*Step 5: Initialize the flight environment**
+**Step 5: Initialize the flight environment*
 
 ```python
 example_flight = flight_3dof(
@@ -91,13 +91,13 @@ example_flight = flight_3dof(
 )
 ```
 
-*Step 6: Execute the simulation loop**
+**Step 6: Execute the simulation loop*
 
 ```python
 example_flight.simulate()
 ```
 
-*Step 7: Analyze and export the telemetry data**
+**Step 7: Analyze and export the telemetry data*
 
 ```python
 example_flight.all_info()
