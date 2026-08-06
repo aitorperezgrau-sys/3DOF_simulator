@@ -1,7 +1,5 @@
 # 3DOF Rocket Trajectory Simulator
 
-> **Note to Reviewers:** This Python library was prepared by Aitor Pérez Grau for the Software Engineer Mission Analysis Internship interview at Rocket Factory Augsburg (RFA) on August 6th.
-
 ## Overview
 
 This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.
@@ -62,7 +60,7 @@ example_atm = atmosphere()
 example_motor = motor_3dof(thrust=1100, burn_out_time=6, name='constant_thrust')
 ```
 
-**Step 3: Initialize the rocket*
+#### Step 3: Initialize the rocket
 
 ```python
 example_rocket = rocket_3dof(
@@ -79,7 +77,7 @@ example_rocket = rocket_3dof(
 example_rocket.add_motor(example_motor)
 ```
 
-**Step 5: Initialize the flight environment*
+#### Step 5: Initialize the flight environment
 
 ```python
 example_flight = flight_3dof(
