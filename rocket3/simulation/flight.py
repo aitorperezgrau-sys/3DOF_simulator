@@ -222,7 +222,7 @@ class flight_3dof():
 
     def draw3d(self) -> None:
         '''
-        Plots the 3d trajectory of the rocket with 3DOF
+        Plots the 3d trajectory of the rocket with 3DOF. 
         '''
         self.plots.trajectory()
 
@@ -230,7 +230,7 @@ class flight_3dof():
     def all_info(self) -> None:
         '''
         Prints all the relevant information and shows
-        all the relevant plots
+        all the relevant plots. 
         '''
         self.plots.all()
         self.prints.all()
