@@ -1,5 +1,7 @@
 # 3DOF Rocket Trajectory Simulator
 
+[![Documentation Status](https://img.shields.io/badge/docs-live-brightgreen)](https://aitorperezgrau-sys.github.io/rocket3/)
+
 ## Overview
 
 This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.

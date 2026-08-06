@@ -1,7 +1,5 @@
 # 3DOF Rocket Trajectory Simulator
 
-> **Note to Reviewers:** This Python library was prepared by Aitor Pérez Grau for the Software Engineer Mission Analysis Internship interview at Rocket Factory Augsburg (RFA) on August 6th.
-
 ## Overview
 
 This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.
@@ -44,25 +42,39 @@ The total mass of the vehicle decreases dynamically as propellant is consumed, a
 
 ### Quick Installation & Workflow
 
+To install RocketPy's latest stable version from PyPI, just open up your terminal and run:
+
+for Windows users:
+
+```shell
+pip install rocket3
+```
+
+for macOS / Linux users:
+
+```shell
+pip install rocket3
+```
+
 The basic use of the library follows a linear 7-step process. Start by importing the necessary classes from the package to perform the simulation:
 
 ```python
 from rocket3 import atmosphere, rocket_3dof, motor_3dof, flight_3dof
 ```
 
-*Step 1: Initialize the atmosphere**
+#### Step 1: Initialize the atmosphere
 
 ```python
 example_atm = atmosphere()
 ```
 
-*Step 2: Initialize the motor**
+#### Step 2: Initialize the motor
 
 ```python
 example_motor = motor_3dof(thrust=1100, burn_out_time=6, name='constant_thrust')
 ```
 
-*Step 3: Initialize the rocket**
+#### Step 3: Initialize the rocket
 
 ```python
 example_rocket = rocket_3dof(
@@ -73,13 +85,13 @@ example_rocket = rocket_3dof(
 )
 ```
 
-*Step 4: Add the motor to the rocket**
+#### Step 4: Add the motor to the rocket
 
 ```python
 example_rocket.add_motor(example_motor)
 ```
 
-*Step 5: Initialize the flight environment**
+#### Step 5: Initialize the flight environment
 
 ```python
 example_flight = flight_3dof(
@@ -91,13 +103,13 @@ example_flight = flight_3dof(
 )
 ```
 
-*Step 6: Execute the simulation loop**
+#### Step 6: Execute the simulation loop
 
 ```python
 example_flight.simulate()
 ```
 
-*Step 7: Analyze and export the telemetry data**
+#### Step 7: Analyze and export the telemetry data
 
 ```python
 example_flight.all_info()
