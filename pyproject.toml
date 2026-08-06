@@ -6,7 +6,9 @@ build-backend = "setuptools.build_meta"
 name = "rocket3"
 version = "0.1.0"
 authors = [
-  { name="Aitor Pérez Grau", email="aitor.perez.grau@example.com" },
+  { name="Aitor Pérez Grau", 
+  email="aitor.perez.grau@gmail.com", 
+  linkedin ="https://www.linkedin.com/in/aitor-perez-grau/"},
 ]
 description = "A 3DOF trajectory simulator for sounding rockets."
 readme = "README.md"
