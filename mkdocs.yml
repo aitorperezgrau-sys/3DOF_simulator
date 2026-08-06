@@ -1,0 +1,5 @@
+site_name: Rocket3 Documentation
+theme:
+  name: material
+plugins:
+  - mkdocstrings
