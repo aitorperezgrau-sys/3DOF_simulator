@@ -6,7 +6,7 @@ from rocket3.simulation.atmosphere import atmosphere
 from scipy.integrate import ode
 
 class flight_3dof():
-    '''
+    """
     This class contains the methods that performs the simulation. 
 
     Attributes
@@ -51,7 +51,7 @@ class flight_3dof():
         Distance from the origin in the xy plane, when the rocket has landed
     fligth_3dof.landing_t : float
         Time from the begging of the simulation at which the landing was detected
-    '''
+    """
     
     def __init__(
             self, 
@@ -62,24 +62,24 @@ class flight_3dof():
             heading: float | int = 90,
             landing_elevation: float | int = 0
     ):
-        '''
+        """
         rocket : rocket_3dof
             Rocket instance that the simulation will use
         initial_altitude : float, int
             Rocket true height Above Sea Level
         inclination : float, int, optional
-            Rocket's initial position relative to the ground
+            Rocket"s initial position relative to the ground
             given in degrees. Angle from the xy plane
             to the z axis. 90 degrees means that it is in the z axis.
             Default is 80 degrees. 
         heading : float, int, optional
-            Rocket's initial position relative to north 
+            Rocket"s initial position relative to north 
             given in degrees. It is positive from the north (y)
             to the east (x). Default is 90, meaning, in the x direciton
         landing_elevation: float, int, optional
             Landing elevation of the rocket in m. Default value is 0 above the sea level
             Which numerically corresponds in the local frame to - initial_altitude
-        '''
+        """
         # check inpu parameters 
         self.check_input_parameters(rocket, atm, initial_altitude, inclination, heading, landing_elevation)
         self.rocket = rocket
@@ -111,43 +111,43 @@ class flight_3dof():
             heading: float | int,
             landing_elevation : float | int
     ) -> None:
-        '''
+        """
         Auxiliary function used to check the validity of the input parameters
 
         Returns
         -------
         None
-        '''
+        """
         if not isinstance(rocket, rocket_3dof): 
-            raise ValueError('The rocket parameter must be a rocket_3dof instance')
+            raise ValueError("The rocket parameter must be a rocket_3dof instance")
         if not isinstance(atm, atmosphere):
-            raise ValueError('The atm parameter must be a atmosphere instance')
+            raise ValueError("The atm parameter must be a atmosphere instance")
         if isinstance(initial_altitude, (float, int)):
             if initial_altitude < 0:
-                raise ValueError('The initial altitude above the sea level must be greater than 0')
+                raise ValueError("The initial altitude above the sea level must be greater than 0")
             elif initial_altitude > 81020 - 1e-6:
-                raise ValueError('The initial altitude cannot be greater or equal than 81020 m above sea level')
+                raise ValueError("The initial altitude cannot be greater or equal than 81020 m above sea level")
         else: 
-            raise ValueError('The initial altitude above the sea level must be a float or int')
+            raise ValueError("The initial altitude above the sea level must be a float or int")
         if not isinstance(inclination, (float, int)):
-            raise ValueError('The inclination must be a float or int')
+            raise ValueError("The inclination must be a float or int")
         if not isinstance(heading, (float, int)):
-            raise ValueError('The heading must be a float or int')
+            raise ValueError("The heading must be a float or int")
         if isinstance(landing_elevation, (float, int)):
             if landing_elevation < 0:
-                raise ValueError('The landing altitude above the sea level must be greater than 0')
+                raise ValueError("The landing altitude above the sea level must be greater than 0")
             elif landing_elevation > 81020 - 1e-6:
-                raise ValueError('The landing altitude cannot be greater or equal than 81020 m above sea level')
+                raise ValueError("The landing altitude cannot be greater or equal than 81020 m above sea level")
         else: 
-            raise ValueError('The landing altitude above the sea level must be a float or int')
+            raise ValueError("The landing altitude above the sea level must be a float or int")
     
 
     def simulate(self):
-        '''
+        """
         Function that starts the simulation
-        '''
+        """
         self.solver = ode(self._diff_equation)
-        self.solver.set_integrator('lsoda')
+        self.solver.set_integrator("lsoda")
         self.solver.set_initial_value(self.u, 0)
 
         finish = False
@@ -161,8 +161,8 @@ class flight_3dof():
             self.ts.append(self.solver.t)
             if self.solver.y[2] + self.initial_altitude <= self.landing_elevation and self.solver.y[5] < 0 and self.solver.t > 0.5:
                 finish = True
-        print(f'len self.us: {len(self.us)}')
-        print(f'len self.ts: {len(self.ts)}')
+        print(f"len self.us: {len(self.us)}")
+        print(f"len self.ts: {len(self.ts)}")
         last_u = self.us[-1]
         self.landing_downrange =  np.sqrt(last_u[0]**2 + last_u[1]**2)
         self.landing_t = self.ts[-1]
@@ -211,27 +211,27 @@ class flight_3dof():
 
 
     def export_trajectory(self, filename) -> None:
-        '''
+        """
         Creates a csv file with the data of the flight in the directory where the file is
         being executed. It has on the first column the time, and then the x, y, z, and velocities
         vx, vy, vz.
-        '''
+        """
         plot_array = np.column_stack((np.array(self.ts), self.us))
         np.savetxt(filename, plot_array, delimiter=",", header="t (s),      x (m),      y (m),      z (m),      vx (m/s),     vy (m/s),     vz(m/s)", comments="") 
 
 
     def draw3d(self) -> None:
-        '''
+        """
         Plots the 3d trajectory of the rocket with 3DOF. 
-        '''
+        """
         self.plots.trajectory()
 
 
     def all_info(self) -> None:
-        '''
+        """
         Prints all the relevant information and shows
         all the relevant plots. 
-        '''
+        """
         self.plots.all()
         self.prints.all()
 

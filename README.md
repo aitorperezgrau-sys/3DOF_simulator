@@ -44,13 +44,13 @@ The total mass of the vehicle decreases dynamically as propellant is consumed, a
 
 To install RocketPy's latest stable version from PyPI, just open up your terminal and run:
 
-for Windows users
+for Windows users:
 
 ```shell
 pip install rocket3
 ```
 
-for macOS / Linux users
+for macOS / Linux users:
 
 ```shell
 pip install rocket3

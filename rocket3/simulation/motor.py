@@ -3,7 +3,7 @@ from rocket3.plots.motor_plots import motor_plots_3dof
 from rocket3.prints.motor_prints import motor_prints_3dof
 
 class motor_3dof():
-    '''
+    """
     Motor class necessary to perform a 3DOF simulation
 
     Attributes
@@ -12,14 +12,14 @@ class motor_3dof():
         Tthrust of the motor as a function of the simulation time. 
     motor_3dof.burn_out_time: float
         Time at which the motor no longer provides thrust
-    '''
+    """
     def __init__(
             self, 
             thrust: str | float | int, 
             burn_out_time: float | int = None,
-            name: str = 'Motor'
+            name: str = "Motor"
     ):
-        '''
+        """
         Initializes the motor class
 
         Parameters
@@ -33,7 +33,7 @@ class motor_3dof():
             Time in which the motor will no longer provide thrust in s
             It is a mandatory parameter when thrust is a constant value, otherwise it will be 
             defined as the last time in the .eng file. 
-        '''
+        """
         self.check_input_parameters(thrust, burn_out_time, name)
         self.name = name
         self.thurst_function_definition(thrust, burn_out_time)
@@ -47,31 +47,31 @@ class motor_3dof():
             burn_out_time: float | int,
             name: str,
     ) -> None:
-        '''
+        """
         Checks the input parameters of the motor_3dof initialization
-        '''
+        """
         if not isinstance(name, str):
-            raise ValueError('The name must be a string')
+            raise ValueError("The name must be a string")
         if not isinstance(thrust, (float, int, str)):
-            raise ValueError('The thurst of the rocket must be a float, int or str')
+            raise ValueError("The thurst of the rocket must be a float, int or str")
         else: 
             if isinstance(thrust, (float, int)):
                 if thrust > 0:
                     if burn_out_time is None:
-                        raise ValueError('Burn time must be defined when the thrust is constant')
+                        raise ValueError("Burn time must be defined when the thrust is constant")
                     elif isinstance(burn_out_time, (float, int)):
                         if burn_out_time < 0:
-                            raise ValueError('The burn time must be greater than 0')
+                            raise ValueError("The burn time must be greater than 0")
                     else:
-                        raise ValueError('Burn time must be a float or int')
+                        raise ValueError("Burn time must be a float or int")
                 else:
-                    raise ValueError('If constant thrust must be greater than 0')
+                    raise ValueError("If constant thrust must be greater than 0")
 
             
     def thurst_function_definition(self, thrust, burn_out_time) -> None:
-        '''
+        """
         Defines the attribute function of the thrust as a function of the time of the simulation. 
-        '''
+        """
         if isinstance(thrust, (float, int)):
             self.thrust_func = lambda t: thrust if 0 < t <= burn_out_time else 0
             self.t_motor_list = [0, 1e-10, burn_out_time]
@@ -133,7 +133,7 @@ class motor_3dof():
             extend_lower_bound: bool = True, 
             extend_upper_bound: bool = True,
     ) -> None:
-        '''
+        """
         Plots the thrust of the motor defined through the initialization
         of the motor, as a function of time. 
 
@@ -150,14 +150,14 @@ class motor_3dof():
             Only used if real_points is False
             If extend_upper_bound is True, thrust plot will be extended
             up to 1 second after the burn_out_time. Default is True.
-        '''
+        """
         self.plots.thrust_against_time(real_points, extend_lower_bound, extend_upper_bound)
 
     def all_info(self) -> None:
-        '''
+        """
         Prints all the relevant information and shows
         all the relevant plots
-        '''
+        """
         self.plots.all()
         self.prints.all()
 

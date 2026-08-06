@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class flight_plots_3dof():
-    '''
+    """
     This class holds the plotting methods
     of the flight class
 
@@ -11,22 +11,22 @@ class flight_plots_3dof():
     flight_plots_3dof.flight : flight_3dof
         Instance of flight_3dof, with which the plots are 
         obtained.
-    '''
+    """
     def __init__(self, flight):
-        '''
+        """
         Parameters
         ---------
         flight : flight_3dof
             Instance of flight_3dof, that will be used to 
             obtain the plots
-        '''
+        """
         self.flight = flight
     
 
     def trajectory_3d(self) -> None:
-        '''
+        """
         Shows the trajectory of the flight
-        '''
+        """
         x = self.flight.x_list
         y = self.flight.y_list
         z = self.flight.z_list
@@ -41,8 +41,8 @@ class flight_plots_3dof():
         max_xy = max(max_x, max_y)
 
         fig = plt.figure(figsize=(18,6))
-        ax = fig.add_subplot(111, projection = '3d')
-        ax.plot(x, y, z, color = 'teal', label = self.flight.rocket.name)
+        ax = fig.add_subplot(111, projection = "3d")
+        ax.plot(x, y, z, color = "teal", label = self.flight.rocket.name)
 
         # Labels 
         ax.set_xlabel("X (m)")
@@ -57,8 +57,8 @@ class flight_plots_3dof():
         ax.legend()
 
     def all(self) -> None:
-        '''
+        """
         Prints all the printing methods in the fligth_plots_3dof class
-        '''
+        """
 
         self.trajectory_3d()
