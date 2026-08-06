@@ -4,11 +4,16 @@ rocket3/__init__.py
 rocket3.egg-info/PKG-INFO
 rocket3.egg-info/SOURCES.txt
 rocket3.egg-info/dependency_links.txt
+rocket3.egg-info/requires.txt
 rocket3.egg-info/top_level.txt
 rocket3/plots/__init__.py
 rocket3/plots/flight_plots.py
+rocket3/plots/motor_plots.py
 rocket3/prints/__init__.py
 rocket3/prints/flight_prints.py
+rocket3/prints/motor_prints.py
 rocket3/simulation/__init__.py
+rocket3/simulation/atmosphere.py
 rocket3/simulation/flight.py
+rocket3/simulation/motor.py
 rocket3/simulation/rocket.py

@@ -1,122 +1,105 @@
+# 3DOF Rocket Trajectory Simulator
 
-INTRODUCITON
-this python library is a prepartion of Aitor Pérez Grau
-for the interview on the 6th of August for a software engineer
-mission analysis intership at RFA. 
+> **Note to Reviewers:** This Python library was prepared by Aitor Pérez Grau for the Software Engineer Mission Analysis Internship interview at Rocket Factory Augsburg (RFA) on August 6th.
 
+## Overview
 
-THEORETICAL DEVELOPMENT
-The intertial frame used will be the East-North-up (ENU) frame
-also known as local tangent plane. 
+This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.
 
-A 3DOF simulation treats the rocket as a point mass: there are 3 forces
-acting on the body, aerodynamic drag, thurst and gravity. 
-In 6DOF simulations there is also a body frame, because it is necessary 
-to model rotations, torques and attitudes. 
+* **Architecture:** Heavily relies on OOP principles, composition, and high modularity.
+* **Interpolation:** Utilizes `numpy.interp` with anonymous (lambda) functions for precise data handling. The use of other interpolators was discarded since the initial values returned were inaccurate.
+* **Coordinate System:** The simulation uses an East-North-Up (ENU) inertial frame (local tangent plane). For ease of use and user-friendly results, the launch site coordinates (x, y, z) are initialized at 0.
 
-Aerodynamic drag: rho(z), the expression is 1/2*rho*Cs*v^2
-    it changes as a function of the altitude,  then a function must be developed
-    the drag coefficient is a constatn
-    the velocity depends on the previous iteration
-    aerodynamic drag points opposite to the velocity vector
+---
 
-Thurst: thrust is given as a function of time, given a .eng file, which is the 
-industry standard for rocket thurst, make an interpolation. time starts from 0
+## Theoretical Development
 
-gravity: 
-    mass: 
-        The total mass of the rocket is the sum of the dry mass (without the fuel) and
-        fuel mass. As the fuel burns the fuel mass decreases and so does the total mass.
-        The burning rate is assumed to be constant meaning, the mass of fuel burned is constant
-        for the entire burning time. 
+A 3-Degree-of-Freedom (3DOF) simulation treats the rocket as a point mass. Unlike 6DOF models—which require a rigid body frame to calculate rotations, torques, and attitudes—there are exactly three primary forces acting on the vehicle in this engine: aerodynamic drag, thrust, and gravity.
 
-The basic use of the library is the following
-    1. atmosphere is initialized
-    2. motor is initialized
-    3. rocket_3dof is initialized
-    4. motor is added to the rocket
-    5. initialize the fight_3dof class with the rocket_3dof object
-    6. use the simulate method from the fight_3dof object to perform the simulation 
-    7. perfrom an analysis of the flight using all_info and export the data using export_trajectory
+### Aerodynamic Drag
 
+Drag points strictly opposite to the velocity vector. The aerodynamic drag force is calculated as:
 
-NOTES
+$$F_{drag} = \frac{1}{2} \rho(z) C_s v^2$$
 
-At lauch site, the x,y,z values are considered to be 0. This is done to make the 
-results of the simulation user friendly.
-since the use of 3dof simulation entails that a small amount of inputs are required, 
-it has been chosen a simple approach to make the code user-friednly 
+* $\rho(z)$: Atmospheric density as a function of altitude.
+* $C_s$: Drag coefficient (assumed constant).
+* $v$: Velocity magnitude, derived from the previous iteration.
 
-PYTHON DEVELOPMENT
-this library is based on a OOP programming style which includes a high modularity and 
-composition. 
-The interpolation is based on numpy method interp with anonymous (lambda) functions
-the use of other interpolators was discarded since the initial values returned were wrong.
+### Thrust
 
+Thrust is modeled as a function of time ($t=0$ at ignition). Given a `.eng` file (the industry standard for rocket thrust), the engine performs a direct interpolation to determine the thrust curve.
 
+### Gravity & Mass Variation
 
-# Getting Started
+The total mass of the vehicle decreases dynamically as propellant is consumed, affecting gravitational acceleration and inertia.
 
-## Quick Installation
+* **Total Mass:** The sum of the dry mass (without fuel) and the fuel mass.
 
-TYPICAL WORKFLOW: 
-It starts by importing the necessary classes to perform the simulation
+* **Burn Rate:** Assumed to be constant, meaning the mass of the fuel burned is linearly distributed across the entire motor burn time.
+
+---
+
+## Getting Started
+
+### Quick Installation & Workflow
+
+The basic use of the library follows a linear 7-step process. Start by importing the necessary classes from the package to perform the simulation:
 
 ```python
-from rocketpy import atmosphere, rocket_3dof, motor_3dof, flight_3dof
+from rocket3 import atmosphere, rocket_3dof, motor_3dof, flight_3dof
 ```
 
-then we go to step 1, initialize the atmosphere
+*Step 1: Initialize the atmosphere**
+
 ```python
 example_atm = atmosphere()
 ```
-a motor can be created with the following code:
+
+*Step 2: Initialize the motor**
+
 ```python
-example_motor = motor_3dof(thrust = 1100 , burn_out_time = 6, name = 'constant_thrust')
+example_motor = motor_3dof(thrust=1100, burn_out_time=6, name='constant_thrust')
 ```
 
-then we must initialize the rocket
+*Step 3: Initialize the rocket**
 
 ```python
-example_rocket_3dof = rocket_3dof(
-    dry_mass = 14.035, 
-    fuel_mass = 3.095,
-    drag_coefficient = 0.75, 
-    radius = 0.057,
-    )
-```
-and add the motor to the rocket
-
-```python
-example_rocket_3dof.add_motor(example_motor)
-```
-
-know that we have all the classes required to perfom the simulation, we create the flight instance
-
-```python
-example_flight_3dof = flight_3dof(
-    rocket = test_rocket_3dof,
-    atm = test_atm, 
-    initial_altitude = 10,
-    inclination = 85,
-    heading = -15
+example_rocket = rocket_3dof(
+    dry_mass=14.035, 
+    fuel_mass=3.095,
+    drag_coefficient=0.75, 
+    radius=0.057
 )
 ```
 
-To simulate the flight we must call the simulate method of the flight_3dof class
+*Step 4: Add the motor to the rocket**
 
 ```python
-example_flight_3dof.simulate()
+example_rocket.add_motor(example_motor)
 ```
 
-finally, once the simulation is done we can visualize and print all the results with:
+*Step 5: Initialize the flight environment**
 
 ```python
-example_flight_3dof.all_info()
+example_flight = flight_3dof(
+    rocket=example_rocket,
+    atm=example_atm, 
+    initial_altitude=10,
+    inclination=85,
+    heading=-15
+)
 ```
 
-and export the data with:
+*Step 6: Execute the simulation loop**
+
 ```python
-example_flight_3dof.export_trajectory('example_flight_3dof.csv')
+example_flight.simulate()
 ```
 
+*Step 7: Analyze and export the telemetry data**
+
+```python
+example_flight.all_info()
+example_flight.export_trajectory('example_flight_3dof.csv')
+```
