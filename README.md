@@ -115,3 +115,7 @@ example_flight.simulate()
 example_flight.all_info()
 example_flight.export_trajectory('example_flight_3dof.csv')
 ```
+
+## Author
+
+This package was created by [Aitor Pérez Grau](https://github.com/aitorperezgrau-sys) as a personal project.
