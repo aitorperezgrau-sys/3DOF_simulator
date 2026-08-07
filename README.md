@@ -30,7 +30,7 @@ Thrust is modeled as a function of time ($t=0$ at ignition). Given a `.eng` file
 
 ### Gravity & Mass Variation
 
-The total mass of the vehicle decreases dynamically as propellant is consumed, affecting gravitational acceleration and inertia.
+The total mass of the vehicle decreases linearly as propellant is consumed, affecting gravitational acceleration.
 
 * **Total Mass:** The sum of the dry mass (without fuel) and the fuel mass.
 
