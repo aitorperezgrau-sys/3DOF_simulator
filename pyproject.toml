@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rocket3"
+name = "rocket3_dof"
 version = "0.1.0"
 authors = [
   { name="Aitor Pérez Grau", 
@@ -20,4 +20,4 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["rocket3*"]
+include = ["rocket3_dof*"]
