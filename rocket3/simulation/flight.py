@@ -30,27 +30,19 @@ class flight_3dof():
         Velocity on the y axis of the rocket. 
     fligth_3dof.vz : float
         Velocity on the z axis of the rocket. 
-    fligth_3dof.ax : float
-        Acceleration on the x axis of the rocket. 
-    fligth_3dof.ay : float
-        Acceleration on the y axis of the rocket. 
-    fligth_3dof.az : float
-        Acceleration on the z axis of the rocket. 
     fligth_3dof.u : list
-        State vector of the rocket, it contains the x, y and z position. 
-    fligth_3dof.udot : list
-        Derivative of the state vector of the rocket, it contains the vx, vy and vz velocity 
-        components. 
+        State vector of the rocket, it contains the x, y and z position
+        and vx, vy, vz. 
     fligth_3dof.apogee_z : float
         Z value in the intertial frame in which the apogee has been achieved. 
     fligth_3dof.apogee_t : float
         Time from the begging of the simulation at which the apogee was detected
-    fligth_3dof.landing_elevation : float | int
-        Elevation above the sea level, in which the rocket is assumed to land. 
-    fligth_3dof.landing_downrange : list
-        Distance from the origin in the xy plane, when the rocket has landed
-    fligth_3dof.landing_t : float
-        Time from the begging of the simulation at which the landing was detected
+    fligth_3dof.impact_elevation : float | int
+        Elevation above the sea level, in which the rocket is assumed to impact. 
+    fligth_3dof.impact_downrange : list
+        Distance from the origin in the xy plane, when the rocket has impacted
+    fligth_3dof.impact_t : float
+        Time from the begging of the simulation at which the impact was detected
     """
     
     def __init__(
@@ -60,7 +52,7 @@ class flight_3dof():
             initial_altitude: float | int, 
             inclination: float | int = 80, 
             heading: float | int = 90,
-            landing_elevation: float | int = 0
+            impact_elevation: float | int = 0
     ):
         """
         rocket : rocket_3dof
@@ -76,18 +68,17 @@ class flight_3dof():
             Rocket"s initial position relative to north 
             given in degrees. It is positive from the north (y)
             to the east (x). Default is 90, meaning, in the x direciton
-        landing_elevation: float, int, optional
+        impact_elevation: float, int, optional
             Landing elevation of the rocket in m. Default value is 0 above the sea level
-            Which numerically corresponds in the local frame to - initial_altitude
         """
         # check inpu parameters 
-        self.check_input_parameters(rocket, atm, initial_altitude, inclination, heading, landing_elevation)
+        self.check_input_parameters(rocket, atm, initial_altitude, inclination, heading, impact_elevation)
         self.rocket = rocket
         self.atm = atm
         self.initial_altitude = initial_altitude # m
         self.inclination = inclination * (np.pi / 180) # rad
         self.heading = heading * (np.pi / 180) # rad
-        self.landing_elevation = landing_elevation # m
+        self.impact_elevation = impact_elevation # m
 
         # plots and print attributes
         self.plots = flight_plots_3dof(self)
@@ -109,7 +100,7 @@ class flight_3dof():
             initial_altitude: float | int, 
             inclination: float | int, 
             heading: float | int,
-            landing_elevation : float | int
+            impact_elevation : float | int
     ) -> None:
         """
         Auxiliary function used to check the validity of the input parameters
@@ -133,13 +124,13 @@ class flight_3dof():
             raise ValueError("The inclination must be a float or int")
         if not isinstance(heading, (float, int)):
             raise ValueError("The heading must be a float or int")
-        if isinstance(landing_elevation, (float, int)):
-            if landing_elevation < 0:
-                raise ValueError("The landing altitude above the sea level must be greater than 0")
-            elif landing_elevation > 81020 - 1e-6:
-                raise ValueError("The landing altitude cannot be greater or equal than 81020 m above sea level")
+        if isinstance(impact_elevation, (float, int)):
+            if impact_elevation < 0:
+                raise ValueError("The impact altitude above the sea level must be greater than 0")
+            elif impact_elevation > 81020 - 1e-6:
+                raise ValueError("The impact altitude cannot be greater or equal than 81020 m above sea level")
         else: 
-            raise ValueError("The landing altitude above the sea level must be a float or int")
+            raise ValueError("The impact altitude above the sea level must be a float or int")
     
 
     def simulate(self):
@@ -157,15 +148,16 @@ class flight_3dof():
                 self.apogee_u = self.solver.y
                 self.apogee_z = self.apogee_u[2]
                 self.apogee_t = self.solver.t
-            self.us.append(self.solver.y)
+            self.u = self.solver.y
+            self.x, self.y, self.z, self.vx, self.vy, self.vz = self.u
+            self.us.append(self.u)
+            self.t = self.solver.t
             self.ts.append(self.solver.t)
-            if self.solver.y[2] + self.initial_altitude <= self.landing_elevation and self.solver.y[5] < 0 and self.solver.t > 0.5:
+            if self.solver.y[2] + self.initial_altitude <= self.impact_elevation and self.solver.y[5] < 0 and self.solver.t > 0.5:
                 finish = True
-        print(f"len self.us: {len(self.us)}")
-        print(f"len self.ts: {len(self.ts)}")
         last_u = self.us[-1]
-        self.landing_downrange =  np.sqrt(last_u[0]**2 + last_u[1]**2)
-        self.landing_t = self.ts[-1]
+        self.impact_downrange =  np.sqrt(last_u[0]**2 + last_u[1]**2)
+        self.impact_t = self.ts[-1]
         self.us = np.array(self.us)
         self.x_list = list(self.us[:, 0])
         self.y_list = list(self.us[:, 1])
