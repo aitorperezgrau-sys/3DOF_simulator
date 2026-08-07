@@ -33,8 +33,8 @@ class flight_prints_3dof():
 
     def impact_conditions(self) -> None:
         print("\nImpact conditions: ")
-        print(f"Downrange impact: {self.flight.landing_downrange}")
-        print(f"Impact time: {self.flight.landing_t}")
+        print(f"Downrange impact: {self.flight.impact_downrange}")
+        print(f"Impact time: {self.flight.impact_t}")
 
     def all(self) -> None:
         """
