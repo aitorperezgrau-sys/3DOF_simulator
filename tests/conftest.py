@@ -3,13 +3,13 @@ This file contains all the fixures, used for testing
 '''
 
 import pytest
-from rocket3 import rocket_3dof
-from rocket3 import flight_3dof
-from rocket3 import motor_3dof
-from rocket3 import atmosphere
-from rocket3 import flight_plots_3dof
-from rocket3 import flight_prints_3dof
-from rocket3 import motor_plots_3dof
+from rocket3_dof import rocket_3dof
+from rocket3_dof import flight_3dof
+from rocket3_dof import motor_3dof
+from rocket3_dof import atmosphere
+from rocket3_dof import flight_plots_3dof
+from rocket3_dof import flight_prints_3dof
+from rocket3_dof import motor_plots_3dof
 
 '''
 Definition of the fixtures that can be used in all the directories and subdirectiories
