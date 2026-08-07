@@ -1,2 +1,0 @@
-from rocket3_dof.prints.flight_prints import flight_prints_3dof
-from rocket3_dof.prints.motor_prints import motor_prints_3dof
