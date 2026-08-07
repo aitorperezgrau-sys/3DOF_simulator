@@ -53,7 +53,7 @@ pip install rocket3
 for macOS / Linux users:
 
 ```shell
-pip install rocket3
+pip3 install rocket3
 ```
 
 The basic use of the library follows a linear 7-step process. Start by importing the necessary classes from the package to perform the simulation:
