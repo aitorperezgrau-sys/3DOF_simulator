@@ -5,7 +5,7 @@
 This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.
 
 * **Architecture:** Heavily relies on OOP principles, composition, and high modularity.
-* **Interpolation:** Utilizes `numpy.interp` with anonymous (lambda) functions for precise data handling. The use of other interpolators was discarded since the initial values returned were inaccurate.
+* **Interpolation:** Utilizes `numpy.interp` and anonymous (lambda) functions for precise data handling. The use of each interpolator was chosen to ensure initial accurate values.
 * **Coordinate System:** The simulation uses an East-North-Up (ENU) inertial frame (local tangent plane). For ease of use and user-friendly results, the launch site coordinates (x, y, z) are initialized at 0.
 
 ---
@@ -26,11 +26,11 @@ $$F_{drag} = \frac{1}{2} \rho(z) C_s v^2$$
 
 ### Thrust
 
-Thrust is modeled as a function of time ($t=0$ at ignition). Given a `.eng` file (the industry standard for rocket thrust), the engine performs a direct interpolation to determine the thrust curve.
+Thrust is modeled as a function of time ($t=0$ at ignition). It can be given as a `.eng` file (the industry standard for rocket thrust), and the simulation performs a direct interpolation to determine the thrust curve, or as a constant thrust.
 
 ### Gravity & Mass Variation
 
-The total mass of the vehicle decreases linearly as propellant is consumed, affecting gravitational acceleration.
+The total mass of the vehicle decreases linearly as propellant is consumed, affecting the resulting acceleration of the rocket.
 
 * **Total Mass:** The sum of the dry mass (without fuel) and the fuel mass.
 
