@@ -42,7 +42,7 @@ The total mass of the vehicle decreases linearly as propellant is consumed, affe
 
 ### Quick Installation & Workflow
 
-To install RocketPy's latest stable version from PyPI, just open up your terminal and run:
+To install rocket3 latest stable version, just open up your terminal and run:
 
 for Windows users:
 
@@ -56,7 +56,8 @@ for macOS / Linux users:
 pip3 install rocket3
 ```
 
-The basic use of the library follows a linear 7-step process. Start by importing the necessary classes from the package to perform the simulation:
+The basic use of the library follows a linear 7-step process, and it is recommended to use Jupyter Notebook `.ipynb` and run each step in a different cell.
+Start by importing the necessary classes from the package to perform the simulation:
 
 ```python
 from rocket3 import atmosphere, rocket_3dof, motor_3dof, flight_3dof
