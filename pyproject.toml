@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "simulation_3dof"
+name = "simulator_3dof"
 version = "0.1.0"
 description = "A 3DOF trajectory simulator for sounding rockets."
 readme = "README.md"
@@ -15,4 +15,4 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["simulation_3dof*"]
+include = ["simulator_3dof*"]

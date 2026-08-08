@@ -42,25 +42,25 @@ The total mass of the vehicle decreases linearly as propellant is consumed, affe
 
 ### Quick Installation & Workflow
 
-To install simulation_3dof latest stable version, just open up your terminal and run:
+To install simulator_3dof latest stable version, just open up your terminal and run:
 
 for Windows users:
 
 ```shell
-pip install simulation_3dof
+pip install simulator_3dof
 ```
 
 for macOS / Linux users:
 
 ```shell
-pip3 install simulation_3dof
+pip3 install simulator_3dof
 ```
 
 The basic use of the library follows a linear 7-step process, and it is recommended to use Jupyter Notebook `.ipynb` and run each step in a different cell.
 Start by importing the necessary classes from the package to perform the simulation:
 
 ```python
-from simulation_3dof import atmosphere, rocket_3dof, motor_3dof, flight_3dof
+from simulator_3dof import atmosphere, rocket_3dof, motor_3dof, flight_3dof
 ```
 
 #### Step 1: Initialize the atmosphere
