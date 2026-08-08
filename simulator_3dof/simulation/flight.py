@@ -1,8 +1,8 @@
-from simulation_3dof.simulation.rocket import rocket_3dof
-from simulation_3dof.plots.flight_plots import flight_plots_3dof
-from simulation_3dof.prints.flight_prints import flight_prints_3dof
+from simulator_3dof.simulation.rocket import rocket_3dof
+from simulator_3dof.plots.flight_plots import flight_plots_3dof
+from simulator_3dof.prints.flight_prints import flight_prints_3dof
 import numpy as np
-from simulation_3dof.simulation.atmosphere import atmosphere
+from simulator_3dof.simulation.atmosphere import atmosphere
 from scipy.integrate import ode
 
 class flight_3dof():

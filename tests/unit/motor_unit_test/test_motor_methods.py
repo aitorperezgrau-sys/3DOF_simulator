@@ -1,6 +1,6 @@
 import pytest
-from simulation_3dof.simulation.motor import motor_3dof
-from simulation_3dof.plots import motor_plots_3dof
+from simulator_3dof.simulation.motor import motor_3dof
+from simulator_3dof.plots import motor_plots_3dof
 import numpy as np
 
 

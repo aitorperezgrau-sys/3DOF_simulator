@@ -1,3 +1,0 @@
-from simulation_3dof.plots.flight_plots import flight_plots_3dof
-from simulation_3dof.plots.motor_plots import motor_plots_3dof
-

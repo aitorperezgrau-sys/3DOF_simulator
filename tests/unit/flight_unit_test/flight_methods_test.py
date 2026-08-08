@@ -1,5 +1,5 @@
-from simulation_3dof.simulation.flight import flight_3dof
-from simulation_3dof.simulation.rocket import rocket_3dof
+from simulator_3dof.simulation.flight import flight_3dof
+from simulator_3dof.simulation.rocket import rocket_3dof
 import pytest
 import numpy as np
 from ambiance import Atmosphere

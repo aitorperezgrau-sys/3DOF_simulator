@@ -1,5 +1,5 @@
 import numpy as np
-from simulation_3dof.simulation.motor import motor_3dof
+from simulator_3dof.simulation.motor import motor_3dof
 
 class rocket_3dof():
     """"

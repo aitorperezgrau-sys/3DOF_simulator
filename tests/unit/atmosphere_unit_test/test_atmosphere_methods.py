@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from ambiance import Atmosphere
-from simulation_3dof.simulation import atmosphere
+from simulator_3dof.simulation import atmosphere
 
 
 def test_pressure_density_funct(test_atmosphere):

@@ -1,6 +1,6 @@
 import numpy as np
-from simulation_3dof.plots.motor_plots import motor_plots_3dof
-from simulation_3dof.prints.motor_prints import motor_prints_3dof
+from simulator_3dof.plots.motor_plots import motor_plots_3dof
+from simulator_3dof.prints.motor_prints import motor_prints_3dof
 
 class motor_3dof():
     """

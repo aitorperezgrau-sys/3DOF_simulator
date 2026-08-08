@@ -1,6 +1,6 @@
 import pytest
-from simulation_3dof.simulation.rocket import rocket_3dof
-from simulation_3dof.simulation.motor import motor_3dof
+from simulator_3dof.simulation.rocket import rocket_3dof
+from simulator_3dof.simulation.motor import motor_3dof
 import numpy as np
 
 @pytest.mark.parametrize('dry_mass, fuel_mass, drag_coefficient, radius, name', [
