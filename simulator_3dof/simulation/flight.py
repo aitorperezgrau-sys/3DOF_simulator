@@ -84,14 +84,21 @@ class flight_3dof():
         self.plots = flight_plots_3dof(self)
         self.prints = flight_prints_3dof(self)
 
-        # initialization of flight variables
+        # initialization of flight attributes
         self.u = [0, 0, 1e-3, 0, 0, 0]
         self.us =[]
         self.us.append(self.u)
         self.dt = 0.001
+        self.t = None
         self.ts = [0]
         self.apogee_t = None
         self.apogee_z = None
+        self.apogee_u = None
+        self.solver = None
+        self.x, self.y, self.z, self.vx, self.vy, self.vz = [None] * 6
+        self.impact_downrange = None
+        self.impact_t = None
+        self.x_list, self.y_list, self.z_list = [None] * 3
 
     def check_input_parameters(
             self, 
@@ -164,7 +171,7 @@ class flight_3dof():
         self.z_list = list(self.us[:, 2])
 
     def _diff_equation(self, t, u):
-        x, y, z, vx, vy, vz = u
+        _, _, z, vx, vy, vz = u
 
         # due to interpolation variability and bound limits
         z = max(z, 0.0) 
@@ -216,7 +223,7 @@ class flight_3dof():
         """
         Plots the 3d trajectory of the rocket with 3DOF. 
         """
-        self.plots.trajectory()
+        self.plots.trajectory_3d()
 
 
     def all_info(self) -> None:

@@ -81,29 +81,29 @@ class motor_3dof():
             
         else: 
             try:
-                eng_file = open(thrust, "r")
-                self.t_motor_list = []
-                self.thrust_list = []
-                eng_file.readline() # title line
-                for raw_line in eng_file:
-                    line = raw_line.strip()
-                    if not line: 
-                        continue
-                    try:
-                        parts = line.split()
-                        if len(parts) != 2:
-                            raise ValueError
-                        to_append_at_t = float(parts[0])
-                        to_append_at_thrust = float(parts[1])
-                        
-                    except ValueError: 
-                        raise ValueError(f"There is a value missing or unreadable at line {len(self.t_motor_list) + 2}: '{line}'")
+                with open(thrust, "r", encoding="utf-8") as eng_file:
+                    self.t_motor_list = []
+                    self.thrust_list = []
+                    eng_file.readline() # title line
+                    for raw_line in eng_file:
+                        line = raw_line.strip()
+                        if not line: 
+                            continue
+                        try:
+                            parts = line.split()
+                            if len(parts) != 2:
+                                raise ValueError
+                            to_append_at_t = float(parts[0])
+                            to_append_at_thrust = float(parts[1])
+                            
+                        except ValueError: 
+                            raise ValueError(f"There is a value missing or unreadable at line {len(self.t_motor_list) + 2}: '{line}'") from None
 
-                    self.t_motor_list.append(to_append_at_t)
-                    self.thrust_list.append(to_append_at_thrust)
-                
+                        self.t_motor_list.append(to_append_at_t)
+                        self.thrust_list.append(to_append_at_thrust)
+                    
             except FileNotFoundError:
-                raise FileNotFoundError(f"The motor file '{thrust}' does not exist.")  
+                raise FileNotFoundError(f"The motor file '{thrust}' does not exist.") from None
             
             if not self.thrust_list:
                 raise ValueError("No thrust data was read from the .eng file.")

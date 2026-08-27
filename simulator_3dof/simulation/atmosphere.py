@@ -16,6 +16,7 @@ class atmosphere():
         Initializes the atmosphere
         """
         self.density_function_definition()
+        self.density_func = None
 
     def density_function_definition(self) -> None:
         """

@@ -58,6 +58,8 @@ class rocket_3dof():
         self.radius = radius
         self.area = np.pi * (self.radius ** 2)
         self.name = name
+        self.motor = None
+        self.mass_func = None
 
     def check_input_parameters(
             self, 
