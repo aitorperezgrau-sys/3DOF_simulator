@@ -1,25 +1,25 @@
-class flight_prints_3dof():
+class flight_prints_3dof:
     """
-    
+
     This class holds the printing methods
     of the flight class
 
     Attributes
     ----------
     flight_prints_3dof.flight : flight_3dof
-        Instance of flight_3dof, with which the prints are 
+        Instance of flight_3dof, with which the prints are
         obtained.
     """
+
     def __init__(self, flight) -> None:
         """
         Parameters
         ---------
         flight : flight_3dof
-            Instance of flight_3dof, that will be used to 
+            Instance of flight_3dof, that will be used to
             obtain the prints
         """
         self.flight = flight
-    
 
     def apogee_conditions(self) -> None:
         """
