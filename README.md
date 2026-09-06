@@ -2,7 +2,7 @@
 
 ## Overview
 
-This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating sounding rockets.
+This library provides a user-friendly, highly modular approach to simulating sounding rockets.
 
 * **Architecture:** Built using on OOP principles, composition, and high modularity.
 * **Interpolation:** Utilizes `numpy.interp` and anonymous (lambda) functions for precise interpolation. The use of each interpolator was chosen to ensure initial accurate values.
