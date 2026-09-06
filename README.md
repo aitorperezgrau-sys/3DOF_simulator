@@ -1,18 +1,20 @@
 # 3DOF Rocket Trajectory Simulator
 
+<img width="481" height="504" alt="image" src="https://github.com/user-attachments/assets/a05c2698-49af-4bbf-b555-0e80dde205bb" />
+
 ## Overview
 
-This library provides a user-friendly, highly modular Object-Oriented Programming (OOP) approach to simulating unguided sounding rockets. Since 3DOF simulations require a specific subset of inputs, the architecture was designed to minimize setup time while delivering robust kinematic analysis.
+This library provides a user-friendly, highly modular approach to simulating sounding rockets.
 
-* **Architecture:** Heavily relies on OOP principles, composition, and high modularity.
-* **Interpolation:** Utilizes `numpy.interp` and anonymous (lambda) functions for precise data handling. The use of each interpolator was chosen to ensure initial accurate values.
-* **Coordinate System:** The simulation uses an East-North-Up (ENU) inertial frame (local tangent plane). For ease of use and user-friendly results, the launch site coordinates (x, y, z) are initialized at 0.
+* **Architecture:** Built using on OOP principles, composition, and high modularity.
+* **Interpolation:** Utilizes `numpy.interp` and lambda functions for interpolation. The use of each interpolator was chosen to ensure initial accurate values.
+* **Coordinate System:** The simulation uses an East-North-Up (ENU) inertial frame with the launch site coordinates (x, y, z) initialized at 0.
 
 ---
 
 ## Theoretical Development
 
-A 3-Degree-of-Freedom (3DOF) simulation treats the rocket as a point mass. Unlike 6DOF models—which require a rigid body frame to calculate rotations, torques, and attitudes—there are exactly three primary forces acting on the vehicle in this engine: aerodynamic drag, thrust, and gravity.
+A 3-Degree-of-freedom (3DOF) simulation considers the rocket as a point mass, thus there are three forces acting on the vehicle: aerodynamic drag, thrust, and gravity.
 
 ### Aerodynamic Drag
 
@@ -22,11 +24,11 @@ $$F_{drag} = \frac{1}{2} \rho(z) C_s v^2$$
 
 * $\rho(z)$: Atmospheric density as a function of altitude.
 * $C_s$: Drag coefficient (assumed constant).
-* $v$: Velocity magnitude, derived from the previous iteration.
+* $v$: Velocity, derived from the previous iteration.
 
 ### Thrust
 
-Thrust is modeled as a function of time ($t=0$ at ignition). It can be given as a `.eng` file (the industry standard for rocket thrust), and the simulation performs a direct interpolation to determine the thrust curve, or as a constant thrust.
+Thrust is modeled as a function of time ($t=0$ at ignition). It can be given as a `.eng` file, and the simulation performs a direct interpolation to determine the thrust curve, or as a constant thrust.
 
 ### Gravity & Mass Variation
 
