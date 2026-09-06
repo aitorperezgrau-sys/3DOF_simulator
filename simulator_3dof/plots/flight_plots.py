@@ -53,7 +53,7 @@ class flight_plots_3dof:
         ax.set_ylim(min_xy, max_xy)
         ax.set_zlim(min_z, max_z)
         ax.view_init(15, 45)
-        ax.set_box_aspect(None, zoom=0.95)
+        ax.set_box_aspect(None, zoom=0.88)
         ax.legend()
 
     def all(self) -> None:
