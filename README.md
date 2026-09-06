@@ -1,5 +1,7 @@
 # 3DOF Rocket Trajectory Simulator
 
+<img width="481" height="504" alt="image" src="https://github.com/user-attachments/assets/a05c2698-49af-4bbf-b555-0e80dde205bb" />
+
 ## Overview
 
 This library provides a user-friendly, highly modular approach to simulating sounding rockets.
