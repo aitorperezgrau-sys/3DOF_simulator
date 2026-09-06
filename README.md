@@ -14,7 +14,7 @@ This library provides a user-friendly, highly modular approach to simulating sou
 
 ## Theoretical Development
 
-A 3-Degree-of-Freedom (3DOF) simulation treats the rocket as a point mass, thus there are three forces acting on the vehicle: aerodynamic drag, thrust, and gravity.
+A 3-Degree-of-freedom (3DOF) simulation considers the rocket as a point mass, thus there are three forces acting on the vehicle: aerodynamic drag, thrust, and gravity.
 
 ### Aerodynamic Drag
 
