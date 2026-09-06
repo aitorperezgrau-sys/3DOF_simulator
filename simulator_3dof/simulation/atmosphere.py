@@ -16,9 +16,9 @@ class atmosphere:
         """
         Initializes the atmosphere
         """
-        self.density_function_definition()
         self.density_func = None
-
+        self.density_function_definition()
+        
     def density_function_definition(self) -> None:
         """
         Defines the function of the density as a function of the heigth above sea level.

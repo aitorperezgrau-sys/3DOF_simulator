@@ -1,8 +1,6 @@
 import pytest
 import numpy as np
 from ambiance import Atmosphere
-from simulator_3dof.simulation import atmosphere
-
 
 def test_pressure_density_funct(test_atmosphere):
     z_above_sea_level_list = [0, 81020, 81020 - 1e-10]

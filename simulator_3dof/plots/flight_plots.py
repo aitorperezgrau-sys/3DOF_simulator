@@ -31,12 +31,12 @@ class flight_plots_3dof:
         y = self.flight.y_list
         z = self.flight.z_list
 
-        max_z = max(self.flight.z_list)
-        min_z = min(self.flight.z_list)
-        max_x = max(self.flight.x_list)
-        min_x = min(self.flight.x_list)
-        max_y = max(self.flight.y_list)
-        min_y = min(self.flight.y_list)
+        max_z = max(self.flight.z_list) * 1.1
+        min_z = min(self.flight.z_list) * 1.1
+        max_x = max(self.flight.x_list) * 1.1
+        min_x = min(self.flight.x_list) * 1.1
+        max_y = max(self.flight.y_list) * 1.1
+        min_y = min(self.flight.y_list) * 1.1
         min_xy = min(min_x, min_y)
         max_xy = max(max_x, max_y)
 
@@ -49,9 +49,9 @@ class flight_plots_3dof:
         ax.set_ylabel("Y (m)")
         ax.set_zlabel("Z (m)")
         ax.set_title("Flight Trajectory")
-        ax.set_xlim(min_xy * 1.1, max_xy * 1.1)
-        ax.set_ylim(min_xy * 1.1, max_xy * 1.1)
-        ax.set_zlim(min_z * 1.1, max_z * 1.1)
+        ax.set_xlim(min_xy, max_xy)
+        ax.set_ylim(min_xy, max_xy)
+        ax.set_zlim(min_z, max_z)
         ax.view_init(15, 45)
         ax.set_box_aspect(None, zoom=0.95)
         ax.legend()
