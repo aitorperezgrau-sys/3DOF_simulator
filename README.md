@@ -5,7 +5,7 @@
 This library provides a user-friendly, highly modular approach to simulating sounding rockets.
 
 * **Architecture:** Built using on OOP principles, composition, and high modularity.
-* **Interpolation:** Utilizes `numpy.interp` and anonymous (lambda) functions for precise interpolation. The use of each interpolator was chosen to ensure initial accurate values.
+* **Interpolation:** Utilizes `numpy.interp` and lambda functions for interpolation. The use of each interpolator was chosen to ensure initial accurate values.
 * **Coordinate System:** The simulation uses an East-North-Up (ENU) inertial frame (local tangent plane). For ease of use results, the launch site coordinates (x, y, z) are initialized at 0.
 
 ---
