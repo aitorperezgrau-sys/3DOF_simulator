@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class flight_plots_3dof:
@@ -56,9 +57,42 @@ class flight_plots_3dof:
         ax.set_box_aspect(None, zoom=0.88)
         ax.legend()
 
+
+    def drag_coefficient(self) -> None:
+        """
+        Shows the drag graph as a function of time. 
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "Cd" + self.flight.rocket.name
+        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)), self.flight.rocket.drag_coefficient_list, color="darkorange", label=label)
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Cd")
+        ax.set_title("Drag coefficient vs time")
+
+
+    def mach_coefficient(self) -> None:
+        """
+        Shows the mach as a function of time. 
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "M" + self.flight.rocket.name
+        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.mach_list)), self.flight.rocket.mach_list, color="seagreen", label=label)
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("M")
+        ax.set_title("Mach vs time")
+
+
     def all(self) -> None:
         """
         Prints all the printing methods in the fligth_plots_3dof class
         """
 
         self.trajectory_3d()
+        self.drag_coefficient()
+        self.mach_coefficient()

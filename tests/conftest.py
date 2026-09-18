@@ -49,7 +49,8 @@ def test_rocket_3dof():
     return rocket_3dof(
     dry_mass = 14.035, 
     fuel_mass = 3.095,
-    drag_coefficient = 0.75, 
+    off_drag_coefficient = 0.4, 
+    on_drag_coefficient = 0.75,
     radius = 0.057,
     name = 'test_rocket_3dof'
     )

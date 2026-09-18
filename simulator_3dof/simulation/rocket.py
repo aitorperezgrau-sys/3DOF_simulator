@@ -16,9 +16,10 @@ class rocket_3dof:
     ----------
     rocket_3dof.mass : float
         Mass of the rocket in kg
-    rocket_3dof.drag_coefficient : float
-        Drag coefficient that used to calculate the
-        aerodynamic drag.
+    rocket_3dof.off_drag_coefficient: float 
+        Drag coefficient when the motor is off. 
+    rocket_3dof.on_drag_coefficient: float
+        Drag coefficient when the motor is on. 
     rocket_3dof.dry_mass : float
         Mass of the rocket in kg without the fuel.
     rocket_3dof.fuel_mass : float
@@ -35,7 +36,8 @@ class rocket_3dof:
         self,
         dry_mass: float | int,
         fuel_mass: float | int,
-        drag_coefficient: float | int,
+        off_drag_coefficient: float | int,
+        on_drag_coefficient: float | int,
         radius: float | int,
         name: str = "3DOF rocket",
     ):
@@ -46,27 +48,36 @@ class rocket_3dof:
             Mass of the rocket without the fuel in kg.
         fuel_mass: float, int
             Mass of the fuel in kg.
-        drag_coefficient : float, int
-            Drag coefficient that will be used to calculate the
-            aerodynamic drag.
+        off_drag_coefficient : float, int
+            Drag coefficient that will be used to calculate 
+            aerodynamic drag when the motor is off. 
+        on_drag_coefficient: float, int
+            Drag coefficient that will be used to calculate
+            aerodynamc drag when the motor is on.
         radius: float, int
             radius of the rocket in m.
         """
-        self.check_input_parameters(dry_mass, fuel_mass, drag_coefficient, radius, name)
+        self.check_input_parameters(dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name)
         self.dry_mass = dry_mass
         self.fuel_mass = fuel_mass
-        self.drag_coefficient = drag_coefficient
+        self.off_drag_coefficient = off_drag_coefficient
+        self.on_drag_coefficient = on_drag_coefficient
+        self.drag_function = None
         self.radius = radius
         self.area = np.pi * (self.radius**2)
         self.name = name
         self.motor = None
         self.mass_func = None
+        self.drag_coefficient_list = []
+        self.mach_list = []
+
 
     def check_input_parameters(
         self,
         dry_mass: float | int,
         fuel_mass: float | int,
-        drag_coefficient: float | int,
+        off_drag_coefficient: float | int,
+        on_drag_coefficient: float | int,
         radius: float | int,
         name: str,
     ) -> None:
@@ -87,12 +98,19 @@ class rocket_3dof:
         else:
             if fuel_mass <= 0:
                 raise ValueError("The mass of the fuel must be greater than 0")
-        if not isinstance(drag_coefficient, (float, int)):
-            raise ValueError("The drag coeffient of the rocket must be a float or int")
+        if not isinstance(off_drag_coefficient, (float, int)):
+            raise ValueError("The off drag coeffient of the rocket must be a float or int")
         else:
-            if drag_coefficient <= 0:
+            if off_drag_coefficient <= 0:
                 raise ValueError(
-                    "The drag coefficient of the rocket must be greater than 0"
+                    "The off drag coefficient of the rocket must be greater than 0"
+                )
+        if not isinstance(on_drag_coefficient, (float, int)):
+            raise ValueError("The on drag coeffient of the rocket must be a float or int")
+        else:
+            if on_drag_coefficient <= 0:
+                raise ValueError(
+                    "The on drag coefficient of the rocket must be greater than 0"
                 )
         if not isinstance(radius, (float, int)):
             raise ValueError("The radius of the cross section must be a float or in")
@@ -132,3 +150,84 @@ class rocket_3dof:
             left=total_mass,  # values before ignition (lower range)
             right=self.dry_mass,  # Values after burnout (upper range)
         )  # kg
+
+    def drag_coeff_function(self, v, t, T):
+        """
+        Returns the drag coefficient as a function of the velocity and the flight time. 
+        Parameters
+        ----------
+        t: float, int
+            Flight time. 
+        v: float, int
+            Velocity of the rocket (TAS). 
+        T: float, int
+            Current temperature for the given altitude ICAO
+
+        Returns
+        -------
+        drag_final: float, int
+            Final Drag. 
+        """
+        
+        def drag_by_thrust(drag: float | int, t: float | int) -> float:
+            """
+            Auxiliary function that adjusts the drag as a consequence of the motor state. 
+            
+            Parameters
+            ----------
+            drag: float, int
+                Initial drag. 
+            t: float, int
+                Flight time. 
+
+            Returns
+            -------
+            drag_post_motor: float, int
+                Drag after the adjustment of the motor state. 
+            """
+            if self.motor.thrust_func(t) > 1e-6:
+                drag_post_motor = self.on_drag_coefficient
+            else:
+                drag_post_motor = drag
+            return drag_post_motor
+
+        def drag_by_mach(drag: float | int, v: float | int, T) -> float:
+            """
+            Auxiliary function that adjusts the drag as a consequence of the velocity. 
+
+            Parameters
+            ----------
+            drag: float, int
+                Drag before adjustment due to velocity
+            v: float, int
+                Velocity of the rocket (TAS)
+            T: float, int
+                Current temperature for the given altitude ICAO
+
+            Returns
+            -------
+            drag_post_v: float, int
+                Drag after adjustment due to velocity
+            """
+            speed_of_sound = np.sqrt(1.4 * 287 * T)
+            mach = v / speed_of_sound
+            self.mach_list.append(mach)
+
+            if mach >= 1:
+                drag_post_v = drag + 0.5
+            else:
+                drag_post_v = drag
+            return drag_post_v
+        
+        drag_post_motor = drag_by_thrust(self.off_drag_coefficient, t)
+        drag_final = drag_by_mach(drag_post_motor, v, T)
+
+        self.drag_coefficient_list.append(drag_final)
+        return drag_final
+
+
+
+
+
+
+

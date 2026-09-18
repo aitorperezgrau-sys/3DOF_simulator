@@ -213,24 +213,30 @@ class flight_3dof:
                     np.sin(inclination),  # align in the rail direciton
                 ]
             )
-            rail_force = (
-                self.rocket.mass_func(t) * g_mag * np.sin(inclination)
-            )  # force that the rail generates on the point mass rocket
-            rail_accel_array = rail_force / self.rocket.mass_func(t) * rail_direction
+
             aero_drag = (
                 0.5
                 * self.atm.density_func(z)
                 * (v_mag**2)
-                * self.rocket.drag_coefficient
+                * self.rocket.drag_coeff_function(v_mag, t, self.atm.temp_func(z))
                 * self.rocket.area
             )
             aero_accel_array = (-aero_drag / current_mass) * rail_direction
             thrust_accel_array = (
                 self.rocket.motor.thrust_func(t) / current_mass
             ) * rail_direction
+
             ax, ay, az = (
-                thrust_accel_array + gravity_array + aero_accel_array + rail_accel_array
+                thrust_accel_array + gravity_array + aero_accel_array
             )
+
+            if self.rocket.motor.thrust_func(t) < 1e-4: 
+                rail_force = (
+                    self.rocket.mass_func(t) * g_mag * np.sin(inclination)
+                )  
+                rail_accel_array = rail_force / self.rocket.mass_func(t) * rail_direction
+                ax, ay, az = (ax + rail_accel_array[0], ay + rail_accel_array[1], az + rail_accel_array[2])
+
 
         else:  # --- flight phase ---
             vel_dir = np.array([vx, vy, vz]) / v_mag  # align in the rocket direction
@@ -238,7 +244,7 @@ class flight_3dof:
                 0.5
                 * self.atm.density_func(z)
                 * (v_mag**2)
-                * self.rocket.drag_coefficient
+                * self.rocket.drag_coeff_function(v_mag, t, self.atm.temp_func(z))
                 * self.rocket.area
             )
             aero_accel_array = (-aero_drag / current_mass) * vel_dir

@@ -3,20 +3,22 @@ from simulator_3dof.simulation.rocket import rocket_3dof
 from simulator_3dof.simulation.motor import motor_3dof
 import numpy as np
 
-@pytest.mark.parametrize('dry_mass, fuel_mass, drag_coefficient, radius, name', [
-    ('2', 2, 0.3, 1, 'rocket_3dof'),    # wrong mass (str)
-    (-3, 2, 0.3, 1, 'rocket_3dof'),     # wrong mass (-)
-    (4, '2', 0.3, 1, 'rocket_3dof'),    # wrong fuel_mass (str)
-    (3, -2, 0.3, 1, 'rocket_3dof'),     # wrong fuel_mass (-)
-    (10, 2, '0.3', 1, 'rocket_3dof'),   # wrong drag_coefficient (str)
-    (10, 2, -0.3, 1, 'rocket_3dof'),    # wrong drag_coefficient (-)
-    (10, 2, 0.3, '1', 'rocket_3dof'),   # wrong radius (str)
-    (10, 2, 0.3, -1, 'rocket_3dof'),    # wrong radius (-)
-    (3, 2, 0.3, 1, 10),                 # wrong name (int)
+@pytest.mark.parametrize('dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name', [
+    ('2', 2, 0.3, 0.4, 1, 'rocket_3dof'),    # wrong mass (str)
+    (-3, 2, 0.3, 0.4, 1, 'rocket_3dof'),     # wrong mass (-)
+    (4, '2', 0.3, 0.4, 1, 'rocket_3dof'),    # wrong fuel_mass (str)
+    (3, -2, 0.3, 0.4, 1, 'rocket_3dof'),     # wrong fuel_mass (-)
+    (10, 2, '0.3', 0.4, 1, 'rocket_3dof'),   # wrong off_drag_coefficient (str)
+    (10, 2, -0.3, 0.4, 1, 'rocket_3dof'),    # wrong off_drag_coefficient (-)
+    (10, 2, 0.3, '0.4', 1, 'rocket_3dof'),   # wrong on_drag_coefficient (str)
+    (10, 2, 0.3, -0.4, 1, 'rocket_3dof'),    # wrong on_drag_coefficient (-)
+    (10, 2, 0.3, 0.4, '1', 'rocket_3dof'),   # wrong radius (str)
+    (10, 2, 0.3, 0.4, -1, 'rocket_3dof'),    # wrong radius (-)
+    (3, 2, 0.3, 0.4, 1, 10),                 # wrong name (int)
 ])
-def test_rocket_check_input_parameters(dry_mass, fuel_mass, drag_coefficient, radius, name):
+def test_rocket_check_input_parameters(dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name):
     with pytest.raises(ValueError):
-        rocket_3dof(dry_mass, fuel_mass, drag_coefficient, radius, name)
+        rocket_3dof(dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name)
 
 
 @pytest.mark.parametrize("motor",[
