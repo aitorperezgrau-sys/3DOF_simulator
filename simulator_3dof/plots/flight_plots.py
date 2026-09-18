@@ -80,7 +80,7 @@ class flight_plots_3dof:
         fig = plt.figure(figsize=(18, 6))
         ax = fig.add_subplot(111)
         label = "M" + self.flight.rocket.name
-        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.mach_list)), self.flight.rocket.mach_list, color="seagreen", label=label)
+        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)), self.flight.mach_list, color="seagreen", label=label)
 
         # labels
         ax.set_xlabel("Time (s)")

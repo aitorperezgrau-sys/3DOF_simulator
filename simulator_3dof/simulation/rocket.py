@@ -69,7 +69,6 @@ class rocket_3dof:
         self.motor = None
         self.mass_func = None
         self.drag_coefficient_list = []
-        self.mach_list = []
 
 
     def check_input_parameters(
@@ -151,17 +150,15 @@ class rocket_3dof:
             right=self.dry_mass,  # Values after burnout (upper range)
         )  # kg
 
-    def drag_coeff_function(self, v, t, T):
+    def drag_coeff_function(self, t, mach):
         """
         Returns the drag coefficient as a function of the velocity and the flight time. 
         Parameters
         ----------
         t: float, int
             Flight time. 
-        v: float, int
-            Velocity of the rocket (TAS). 
-        T: float, int
-            Current temperature for the given altitude ICAO
+        mach: float, int
+            Mach. 
 
         Returns
         -------
@@ -191,7 +188,7 @@ class rocket_3dof:
                 drag_post_motor = drag
             return drag_post_motor
 
-        def drag_by_mach(drag: float | int, v: float | int, T) -> float:
+        def drag_by_mach(drag: float | int, mach: float | int) -> float:
             """
             Auxiliary function that adjusts the drag as a consequence of the velocity. 
 
@@ -199,19 +196,14 @@ class rocket_3dof:
             ----------
             drag: float, int
                 Drag before adjustment due to velocity
-            v: float, int
-                Velocity of the rocket (TAS)
-            T: float, int
-                Current temperature for the given altitude ICAO
+            mach: float, int
+                Mach
 
             Returns
             -------
             drag_post_v: float, int
                 Drag after adjustment due to velocity
             """
-            speed_of_sound = np.sqrt(1.4 * 287 * T)
-            mach = v / speed_of_sound
-            self.mach_list.append(mach)
 
             if mach >= 1:
                 drag_post_v = drag + 0.5
@@ -220,7 +212,7 @@ class rocket_3dof:
             return drag_post_v
         
         drag_post_motor = drag_by_thrust(self.off_drag_coefficient, t)
-        drag_final = drag_by_mach(drag_post_motor, v, T)
+        drag_final = drag_by_mach(drag_post_motor, mach)
 
         self.drag_coefficient_list.append(drag_final)
         return drag_final

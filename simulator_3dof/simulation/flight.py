@@ -103,6 +103,7 @@ class flight_3dof:
         self.impact_downrange = None
         self.impact_t = None
         self.x_list, self.y_list, self.z_list = [None] * 3
+        self.mach_list = []
 
     def check_input_parameters(
         self,
@@ -189,6 +190,7 @@ class flight_3dof:
         self.y_list = list(self.us[:, 1])
         self.z_list = list(self.us[:, 2])
 
+
     def _diff_equation(self, t, u):
         _, _, z, vx, vy, vz = u
 
@@ -196,6 +198,9 @@ class flight_3dof:
         z = max(z, 0.0)
         t = max(t, 0.0)
         v_mag = np.linalg.norm([vx, vy, vz])
+        speed_of_sound = np.sqrt(1.4 * 287 * self.atm.temp_func(z))
+        mach = v_mag / speed_of_sound
+        self.mach_list.append(mach)
         r_t = z + (6.371 * 1e6)
 
         g_mag = 3.986004418 * 1e14 / (r_t**2)
@@ -218,7 +223,7 @@ class flight_3dof:
                 0.5
                 * self.atm.density_func(z)
                 * (v_mag**2)
-                * self.rocket.drag_coeff_function(v_mag, t, self.atm.temp_func(z))
+                * self.rocket.drag_coeff_function(t, mach)
                 * self.rocket.area
             )
             aero_accel_array = (-aero_drag / current_mass) * rail_direction
@@ -244,7 +249,7 @@ class flight_3dof:
                 0.5
                 * self.atm.density_func(z)
                 * (v_mag**2)
-                * self.rocket.drag_coeff_function(v_mag, t, self.atm.temp_func(z))
+                * self.rocket.drag_coeff_function(t, mach)
                 * self.rocket.area
             )
             aero_accel_array = (-aero_drag / current_mass) * vel_dir
