@@ -104,6 +104,7 @@ class flight_3dof:
         self.impact_t = None
         self.x_list, self.y_list, self.z_list = [None] * 3
         self.mach_list = []
+        self.drag_list = []
 
     def check_input_parameters(
         self,
@@ -207,7 +208,7 @@ class flight_3dof:
         gravity_array = np.array([0, 0, -g_mag])
         current_mass = self.rocket.mass_func(t)
 
-        if t < 0.5:  # --- rail phase ---
+        if t < 0.04:  # --- rail phase ---
             heading = self.heading
             inclination = self.inclination
 
@@ -226,6 +227,7 @@ class flight_3dof:
                 * self.rocket.drag_coeff_function(t, mach)
                 * self.rocket.area
             )
+            self.drag_list.append(aero_drag)
             aero_accel_array = (-aero_drag / current_mass) * rail_direction
             thrust_accel_array = (
                 self.rocket.motor.thrust_func(t) / current_mass
@@ -235,7 +237,7 @@ class flight_3dof:
                 thrust_accel_array + gravity_array + aero_accel_array
             )
 
-            if self.rocket.motor.thrust_func(t) < 1e-4: 
+            if self.rocket.motor.thrust_func(t) == 0: 
                 rail_force = (
                     self.rocket.mass_func(t) * g_mag * np.sin(inclination)
                 )  
@@ -252,6 +254,7 @@ class flight_3dof:
                 * self.rocket.drag_coeff_function(t, mach)
                 * self.rocket.area
             )
+            self.drag_list.append(aero_drag)
             aero_accel_array = (-aero_drag / current_mass) * vel_dir
             thrust_accel_array = (
                 self.rocket.motor.thrust_func(t) / current_mass
@@ -271,7 +274,7 @@ class flight_3dof:
             filename,
             plot_array,
             delimiter=",",
-            header="t (s),      x (m),      y (m),      z (m),      vx (m/s),     vy (m/s),     vz(m/s)",
+            header="Time (s),      X (m),      Y (m),      Z (m),      Vx (m/s),     Vy (m/s),     Vz (m/s)",
             comments="",
         )
 

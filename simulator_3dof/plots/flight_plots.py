@@ -73,6 +73,20 @@ class flight_plots_3dof:
         ax.set_title("Drag coefficient vs time")
 
 
+    def drag_force(self) -> None:
+        """
+        Shows the drag force magnitude as a function of time. 
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "D" + self.flight.rocket.name
+        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)), self.flight.drag_list, color="steelblue", label=label)
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("D (N)")
+        ax.set_title("Drag vs time")
+
     def mach_coefficient(self) -> None:
         """
         Shows the mach as a function of time. 
@@ -96,3 +110,4 @@ class flight_plots_3dof:
         self.trajectory_3d()
         self.drag_coefficient()
         self.mach_coefficient()
+        self.drag_force()

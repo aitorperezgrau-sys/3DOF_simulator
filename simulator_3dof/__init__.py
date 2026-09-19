@@ -5,3 +5,4 @@ from .simulation.atmosphere import atmosphere
 from .simulation.flight import flight_3dof
 from .simulation.motor import motor_3dof
 from .simulation.rocket import rocket_3dof
+from .auxiliary.read_class import flight_reader
