@@ -16,10 +16,10 @@ class rocket_3dof:
     ----------
     rocket_3dof.mass : float
         Mass of the rocket in kg
-    rocket_3dof.off_drag_coefficient: float 
-        Drag coefficient when the motor is off. 
+    rocket_3dof.off_drag_coefficient: float
+        Drag coefficient when the motor is off.
     rocket_3dof.on_drag_coefficient: float
-        Drag coefficient when the motor is on. 
+        Drag coefficient when the motor is on.
     rocket_3dof.dry_mass : float
         Mass of the rocket in kg without the fuel.
     rocket_3dof.fuel_mass : float
@@ -49,15 +49,17 @@ class rocket_3dof:
         fuel_mass: float, int
             Mass of the fuel in kg.
         off_drag_coefficient : float, int
-            Drag coefficient that will be used to calculate 
-            aerodynamic drag when the motor is off. 
+            Drag coefficient that will be used to calculate
+            aerodynamic drag when the motor is off.
         on_drag_coefficient: float, int
             Drag coefficient that will be used to calculate
             aerodynamc drag when the motor is on.
         radius: float, int
             radius of the rocket in m.
         """
-        self.check_input_parameters(dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name)
+        self.check_input_parameters(
+            dry_mass, fuel_mass, off_drag_coefficient, on_drag_coefficient, radius, name
+        )
         self.dry_mass = dry_mass
         self.fuel_mass = fuel_mass
         self.off_drag_coefficient = off_drag_coefficient
@@ -69,7 +71,6 @@ class rocket_3dof:
         self.motor = None
         self.mass_func = None
         self.drag_coefficient_list = []
-
 
     def check_input_parameters(
         self,
@@ -98,14 +99,18 @@ class rocket_3dof:
             if fuel_mass <= 0:
                 raise ValueError("The mass of the fuel must be greater than 0")
         if not isinstance(off_drag_coefficient, (float, int)):
-            raise ValueError("The off drag coeffient of the rocket must be a float or int")
+            raise ValueError(
+                "The off drag coeffient of the rocket must be a float or int"
+            )
         else:
             if off_drag_coefficient <= 0:
                 raise ValueError(
                     "The off drag coefficient of the rocket must be greater than 0"
                 )
         if not isinstance(on_drag_coefficient, (float, int)):
-            raise ValueError("The on drag coeffient of the rocket must be a float or int")
+            raise ValueError(
+                "The on drag coeffient of the rocket must be a float or int"
+            )
         else:
             if on_drag_coefficient <= 0:
                 raise ValueError(
@@ -152,35 +157,35 @@ class rocket_3dof:
 
     def drag_coeff_function(self, t, mach):
         """
-        Returns the drag coefficient as a function of the velocity and the flight time. 
+        Returns the drag coefficient as a function of the velocity and the flight time.
         Parameters
         ----------
         t: float, int
-            Flight time. 
+            Flight time.
         mach: float, int
-            Mach. 
+            Mach.
 
         Returns
         -------
         drag_final: float, int
-            Final Drag. 
+            Final Drag.
         """
-        
+
         def drag_by_thrust(drag: float | int, t: float | int) -> float:
             """
-            Auxiliary function that adjusts the drag as a consequence of the motor state. 
-            
+            Auxiliary function that adjusts the drag as a consequence of the motor state.
+
             Parameters
             ----------
             drag: float, int
-                Initial drag. 
+                Initial drag.
             t: float, int
-                Flight time. 
+                Flight time.
 
             Returns
             -------
             drag_post_motor: float, int
-                Drag after the adjustment of the motor state. 
+                Drag after the adjustment of the motor state.
             """
             if self.motor.thrust_func(t) > 1e-6:
                 drag_post_motor = self.on_drag_coefficient
@@ -190,7 +195,7 @@ class rocket_3dof:
 
         def drag_by_mach(drag: float | int, mach: float | int) -> float:
             """
-            Auxiliary function that adjusts the drag as a consequence of the velocity. 
+            Auxiliary function that adjusts the drag as a consequence of the velocity.
 
             Parameters
             ----------
@@ -210,16 +215,9 @@ class rocket_3dof:
             else:
                 drag_post_v = drag
             return drag_post_v
-        
+
         drag_post_motor = drag_by_thrust(self.off_drag_coefficient, t)
         drag_final = drag_by_mach(drag_post_motor, mach)
 
         self.drag_coefficient_list.append(drag_final)
         return drag_final
-
-
-
-
-
-
-

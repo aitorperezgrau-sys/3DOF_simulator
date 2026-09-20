@@ -57,50 +57,256 @@ class flight_plots_3dof:
         ax.set_box_aspect(None, zoom=0.88)
         ax.legend()
 
-
     def drag_coefficient(self) -> None:
         """
-        Shows the drag graph as a function of time. 
+        Shows the drag graph as a function of time.
         """
         fig = plt.figure(figsize=(18, 6))
         ax = fig.add_subplot(111)
         label = "Cd" + self.flight.rocket.name
-        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)), self.flight.rocket.drag_coefficient_list, color="darkorange", label=label)
+        ax.plot(
+            np.linspace(
+                0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)
+            ),
+            self.flight.rocket.drag_coefficient_list,
+            color="darkorange",
+            label=label,
+        )
 
-        # labels
+        # labels
         ax.set_xlabel("Time (s)")
         ax.set_ylabel("Cd")
         ax.set_title("Drag coefficient vs time")
 
-
     def drag_force(self) -> None:
         """
-        Shows the drag force magnitude as a function of time. 
+        Shows the drag force magnitude as a function of time.
         """
         fig = plt.figure(figsize=(18, 6))
         ax = fig.add_subplot(111)
         label = "D" + self.flight.rocket.name
-        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)), self.flight.drag_list, color="steelblue", label=label)
+        ax.plot(
+            np.linspace(
+                0, self.flight.impact_t, len(self.flight.rocket.drag_coefficient_list)
+            ),
+            self.flight.drag_list,
+            color="steelblue",
+            label=label,
+        )
 
-        # labels
+        # labels
         ax.set_xlabel("Time (s)")
         ax.set_ylabel("D (N)")
         ax.set_title("Drag vs time")
 
     def mach_coefficient(self) -> None:
         """
-        Shows the mach as a function of time. 
+        Shows the mach as a function of time.
         """
         fig = plt.figure(figsize=(18, 6))
         ax = fig.add_subplot(111)
         label = "M" + self.flight.rocket.name
-        ax.plot(np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)), self.flight.mach_list, color="seagreen", label=label)
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.mach_list,
+            color="seagreen",
+            label=label,
+        )
 
-        # labels
+        # labels
         ax.set_xlabel("Time (s)")
         ax.set_ylabel("M")
         ax.set_title("Mach vs time")
 
+    def x_flight(self) -> None:
+        """
+        Shows the x axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "x" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.x_list,
+            color="chartreuse",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("x (m)")
+        ax.set_title("x vs time")
+
+    def y_flight(self) -> None:
+        """
+        Shows the y axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "y" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.y_list,
+            color="chartreuse",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("y (m)")
+        ax.set_title("y vs time")
+
+    def z_flight(self) -> None:
+        """
+        Shows the z axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "z" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.z_list,
+            color="chartreuse",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("z (m)")
+        ax.set_title("z vs time")
+
+    def vx_flight(self) -> None:
+        """
+        Shows the velocity in x axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "vx" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.vx_list,
+            color="midnightblue",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Vx (m/s)")
+        ax.set_title("Vx vs time")
+
+    def vy_flight(self) -> None:
+        """
+        Shows the velocity in y axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "vy" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.vy_list,
+            color="midnightblue",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Vy (m/s)")
+        ax.set_title("Vy vs time")
+
+    def vz_flight(self) -> None:
+        """
+        Shows the velocity in z axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "vz" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.vz_list,
+            color="midnightblue",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Vz (m/s)")
+        ax.set_title("Vz vs time")
+
+    def ax_flight(self) -> None:
+        """
+        Shows the acceleration in x axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "ax" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.ax_list,
+            color="darkviolet",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Ax (m/s^2)")
+        ax.set_title("Ax vs time")
+
+    def ay_flight(self) -> None:
+        """
+        Shows the acceleration in y axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "ay" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.ay_list,
+            color="darkviolet",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Ay (m/s^2)")
+        ax.set_title("Ay vs time")
+
+    def az_flight(self) -> None:
+        """
+        Shows the acceleration in z axis as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "ay" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.az_list,
+            color="darkviolet",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Az (m/s^2)")
+        ax.set_title("Az vs time")
+
+    def a_flight(self) -> None:
+        """
+        Shows the magnitude of acceleration as a function of time.
+        """
+        fig = plt.figure(figsize=(18, 6))
+        ax = fig.add_subplot(111)
+        label = "a" + self.flight.rocket.name
+        ax.plot(
+            np.linspace(0, self.flight.impact_t, len(self.flight.mach_list)),
+            self.flight.a_list,
+            color="darkviolet",
+            label=label,
+        )
+
+        # labels
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("A (m/s^2)")
+        ax.set_title("Acceleration s vs time")
 
     def all(self) -> None:
         """

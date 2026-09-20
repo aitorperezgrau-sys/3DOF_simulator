@@ -19,7 +19,7 @@ class atmosphere:
         self.density_func = None
         self.density_function_definition()
         self.temp_function_definition()
-        
+
     def density_function_definition(self) -> None:
         """
         Defines the function of the density as a function of the heigth above sea level.
@@ -35,6 +35,7 @@ class atmosphere:
         )  # accepts above sea level and accepts numpy matrixes
         rho_list = atmosphere_instance.density
         self.density_func = interp1d(z_list, rho_list, kind="linear", bounds_error=True)
+
     def temp_function_definition(self) -> None:
         """
         Defines the function of the temperature as a function of the heigth above sea level.

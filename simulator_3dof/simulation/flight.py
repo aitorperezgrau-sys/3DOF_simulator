@@ -105,6 +105,13 @@ class flight_3dof:
         self.x_list, self.y_list, self.z_list = [None] * 3
         self.mach_list = []
         self.drag_list = []
+        self.vx_list = []
+        self.vy_list = []
+        self.vz_list = []
+        self.ax_list = []
+        self.ay_list = []
+        self.az_list = []
+        self.a_list = []
 
     def check_input_parameters(
         self,
@@ -186,11 +193,20 @@ class flight_3dof:
         last_u = self.us[-1]
         self.impact_downrange = np.sqrt(last_u[0] ** 2 + last_u[1] ** 2)
         self.impact_t = self.ts[-1]
-        self.us = np.array(self.us)
+        self.us = np.asarray(self.us)
+        t = np.asarray(self.ts)
         self.x_list = list(self.us[:, 0])
         self.y_list = list(self.us[:, 1])
         self.z_list = list(self.us[:, 2])
-
+        self.vx_list = list(self.us[:, 3])
+        self.vy_list = list(self.us[:, 4])
+        self.vz_list = list(self.us[:, 5])
+        self.ax_list = np.gradient(self.us[:, 3], t)
+        self.ay_list = np.gradient(self.us[:, 4], t)
+        self.az_list = np.gradient(self.us[:, 5], t)
+        self.a_list = np.linalg.norm(
+            [self.ax_list, self.ay_list, self.az_list], axis=0
+        ).tolist()
 
     def _diff_equation(self, t, u):
         _, _, z, vx, vy, vz = u
@@ -233,18 +249,18 @@ class flight_3dof:
                 self.rocket.motor.thrust_func(t) / current_mass
             ) * rail_direction
 
-            ax, ay, az = (
-                thrust_accel_array + gravity_array + aero_accel_array
-            )
+            ax, ay, az = thrust_accel_array + gravity_array + aero_accel_array
 
-            if self.rocket.motor.thrust_func(t) == 0: 
-                rail_force = (
-                    self.rocket.mass_func(t) * g_mag * np.sin(inclination)
-                )  
-                rail_accel_array = rail_force / self.rocket.mass_func(t) * rail_direction
-                ax, ay, az = (ax + rail_accel_array[0], ay + rail_accel_array[1], az + rail_accel_array[2])
-
-
+            if self.rocket.motor.thrust_func(t) == 0:
+                rail_force = self.rocket.mass_func(t) * g_mag
+                rail_accel_array = (
+                    rail_force / self.rocket.mass_func(t) * rail_direction
+                )
+                ax, ay, az = (
+                    ax + rail_accel_array[0],
+                    ay + rail_accel_array[1],
+                    az + rail_accel_array[2],
+                )
         else:  # --- flight phase ---
             vel_dir = np.array([vx, vy, vz]) / v_mag  # align in the rocket direction
             aero_drag = (
@@ -269,12 +285,14 @@ class flight_3dof:
         being executed. It has on the first column the time, and then the x, y, z, and velocities
         vx, vy, vz.
         """
-        plot_array = np.column_stack((np.array(self.ts), self.us))
+        plot_array = np.column_stack(
+            (np.array(self.ts), self.us, self.ax_list, self.ay_list, self.az_list)
+        )
         np.savetxt(
             filename,
             plot_array,
             delimiter=",",
-            header="Time (s),      X (m),      Y (m),      Z (m),      Vx (m/s),     Vy (m/s),     Vz (m/s)",
+            header="Time (s),      X (m),      Y (m),      Z (m),      Vx (m/s),     Vy (m/s),     Vz (m/s),     Ax(m/s^2),     Ay(m/s^2),     Az(m/s^2)",
             comments="",
         )
 
